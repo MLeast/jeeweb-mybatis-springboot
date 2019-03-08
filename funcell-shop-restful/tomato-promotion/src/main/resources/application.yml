@@ -1,0 +1,153 @@
+server:
+  port: 8083
+
+funcell:
+  security:
+    credentialsHashAlgorithmName: md5
+    credentialsHashIterations: 2
+  jwt:
+    header: Authorization
+    tokenHead: Bearer
+    secret: tomato_promotion
+    expiration: 1800000
+    claim_key_username: username
+    claim_key_createdate: createdate
+    authpath:
+  redis:
+    prefix: tomato_promotion_
+    expiration: 600
+
+wx:
+  properties:
+    appId: wx29beeba5bb2af004
+    appSecret: fe97f8d937f8f53c1288f3b28d289d20
+    grantType: authorization_code
+    merchantId:
+    notifyId: SC7MNoOZhFYD5T3vP9Rm1DEov1n3Xx4Bvu1rrkxSQRQ
+    incomeId: 3A5yNG7tEGjYFqbjL309Zb1-K_ERn0z7gSEDSM2Ln08
+    inviteId: gdBVQW7E5Ft3AjoST7j1oSn7c8fyskVsyKlUbmZhUDs
+pdd:
+  config:
+    clientId: 26a892f1a95b494bac8f5f9b1db451c4
+    clientSecret: 3c18399c8ff892caabb490313c676fe2e0c6ab44
+
+spring:
+  resources:
+    add-mappings: false
+  session:
+    store-type: none
+  devtools:
+    restart:
+      enabled: true
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6009
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: 10000
+
+  messages:
+    basename: i18n/messages,i18n/ValidationMessages
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  thymeleaf:
+    cache: false
+    enabled: false
+  aop:
+    proxy-target-class: true
+
+  datasource:
+    dynamic:
+      druid:
+        filters: stat,wall,log4j
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        connection-properties: druid.stat.merggSql=ture;druid.stat.slowSqlMillis=5000
+      primary: master
+      datasource:
+        master:
+          username: root
+          password: 123456
+          url: jdbc:mysql://localhost:3306/funcell_tomato_promotion?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave_funcellShop:
+          username: root
+          password: 123456
+          url: jdbc:mysql://localhost:3306/funcell_shop?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+          driver-class-name: com.mysql.cj.jdbc.Driver
+
+#mybatis
+mybatis:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+
+  typeAliasesPackage: com.funcell.promotion.moudle.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+
+  type-aliases-package:  com.funcell.promotion.moudle.entity
+  #typeEnumsPackage: com.baomidou.springboot.entity.enums
+  global-config:
+
+    id-type: 2
+
+    field-strategy: 1
+
+    db-column-underline: true
+
+    refresh-mapper: true
+
+    #capital-mode: true
+
+    logic-delete-value: 0
+    logic-not-delete-value: 1
+
+    sql-parser-cache: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  configuration-properties:
+    dbType: mysql
+
+
+
+xxl:
+  job:
+    admin:
+      ### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
+      addresses: http://localhost:8080/xxl-job-admin
+    ### xxl-job executor address
+    executor:
+      appname: tomato-promotion
+      ip:
+      port: 9998
+      ### xxl-job log path
+      logpath: /data/applogs/xxl-job/jobhandler
+      ### xxl-job log retention days
+      logretentiondays: -1
+    ### xxl-job, access token
+    accessToken:
+
+#write image to server file
+
+
